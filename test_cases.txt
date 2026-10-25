@@ -1,0 +1,74 @@
+SMART BUS RESERVATION SYSTEM - TEST CASES
+All tests were run in one fresh session (in-memory data starts empty).
+
+TC-01 | View all routes
+  Input/Action : Menu 1, then sub-option 1
+  Expected     : All five routes and seat status appear
+  Actual       : 5 routes shown with seats 40/40, 36/36, 32/32, 45/45, 30/30
+  Matched      : Yes
+
+TC-02 | Search Hyderabad
+  Input/Action : Menu 2, search "hyderabad"
+  Expected     : Routes departing from or arriving at Hyderabad appear
+  Actual       : R101, R103 and R105 displayed
+  Matched      : Yes
+
+TC-03 | Unknown city
+  Input/Action : Menu 2, search "Atlantis"
+  Expected     : No-match message; program continues
+  Actual       : "No matching routes found." and menu returned
+  Matched      : Yes
+
+TC-04 | Book two seats
+  Input/Action : Menu 3: Ahmed, age 24, R101, 2 seats
+  Expected     : Booking confirmed for Rs. 2,400; R101 availability drops by 2
+  Actual       : Booking B1001 confirmed, total Rs. 2400; Menu 6 showed R101 at 38/40
+  Matched      : Yes
+
+TC-05 | Zero seats
+  Input/Action : Menu 3: valid name, age, R101, 0 seats
+  Expected     : Rejected; no booking or seat change
+  Actual       : "Error: seats must be a positive whole number."; Menu 4 still showed only B1001
+  Matched      : Yes
+
+TC-06 | Too many seats
+  Input/Action : Menu 3: valid details, R101, 99 seats
+  Expected     : Rejected; availability never negative
+  Actual       : "Error: only 38 seat(s) available on R101."; seats unchanged
+  Matched      : Yes
+
+TC-07 | Cancel confirmed booking
+  Input/Action : Menu 5, booking ID B1001
+  Expected     : Status changes and correct seats are restored
+  Actual       : "Booking B1001 has been cancelled." Seats restored: 2; R101 available seats: 40
+  Matched      : Yes
+
+TC-08 | Cancel same booking again
+  Input/Action : Menu 5, booking ID B1001 again
+  Expected     : Rejected; no additional seat restoration
+  Actual       : "Booking B1001 is already cancelled."; R101 stayed at 40
+  Matched      : Yes
+
+TC-09 | Report with no bookings
+  Input/Action : Menu 7 on a fresh session
+  Expected     : Booking totals and revenue zero; route status still counted
+  Actual       : Total 0, confirmed 0, cancelled 0, reserved seats 0, revenue Rs. 0, fully booked routes 0
+  Matched      : Yes
+
+TC-10 | Book all seats
+  Input/Action : Menu 3: Sara, age 30, R101, 40 seats
+  Expected     : Booking succeeds; availability zero; Fully Booked status
+  Actual       : B1002 confirmed, Rs. 48000; Menu 6 showed R101 at 0/40 Fully Booked
+  Matched      : Yes
+
+TC-11 | Report after cancellation
+  Input/Action : Cancel a booking, then Menu 7
+  Expected     : Cancelled count increases; cancelled fare excluded
+  Actual       : Total 2, confirmed 1, cancelled 1, reserved seats 40, revenue Rs. 48,000, fully booked routes 1
+  Matched      : Yes
+
+TC-12 | Invalid menu option
+  Input/Action : Enter "abc", then "9"
+  Expected     : Helpful error; program returns to menu
+  Actual       : "Please enter a number from 1 to 8." and "Unsupported option. Choose 1 to 8."; menu returned each time
+  Matched      : Yes
